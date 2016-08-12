@@ -21,6 +21,9 @@
 		DC9F8CD91D5D291B00477F35 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CD81D5D291B00477F35 /* MapViewController.swift */; };
 		DC9F8CDC1D5DCB3400477F35 /* OnTheMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */; };
 		DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */; };
+		DC9F8CE21D5E107900477F35 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE11D5E107900477F35 /* LocationTableViewController.swift */; };
+		DC9F8CE41D5E726500477F35 /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE31D5E726500477F35 /* RoundCornerButton.swift */; };
+		DC9F8CE61D5E759A00477F35 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE51D5E759A00477F35 /* InformationPostingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,9 @@
 		DC9F8CD81D5D291B00477F35 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnTheMapModel.swift; sourceTree = "<group>"; };
 		DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
+		DC9F8CE11D5E107900477F35 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
+		DC9F8CE31D5E726500477F35 /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
+		DC9F8CE51D5E759A00477F35 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				DC9F8CD01D5C91CF00477F35 /* CustomTextField.swift */,
+				DC9F8CE31D5E726500477F35 /* RoundCornerButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -124,8 +131,10 @@
 		DC3DCFD41D5BBB430085F475 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DC9F8CE11D5E107900477F35 /* LocationTableViewController.swift */,
 				DC9F8CC71D5BEEAF00477F35 /* LoginViewController.swift */,
 				DC9F8CD81D5D291B00477F35 /* MapViewController.swift */,
+				DC9F8CE51D5E759A00477F35 /* InformationPostingViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -222,9 +231,12 @@
 				DC9F8CC81D5BEEAF00477F35 /* LoginViewController.swift in Sources */,
 				DC9F8CDC1D5DCB3400477F35 /* OnTheMapModel.swift in Sources */,
 				DC9F8CCD1D5C8C1200477F35 /* StudentLocationClient.swift in Sources */,
+				DC9F8CE41D5E726500477F35 /* RoundCornerButton.swift in Sources */,
+				DC9F8CE61D5E759A00477F35 /* InformationPostingViewController.swift in Sources */,
 				DC9F8CD11D5C91CF00477F35 /* CustomTextField.swift in Sources */,
 				DC3DCFBF1D5B84DE0085F475 /* AppDelegate.swift in Sources */,
 				DC9F8CD31D5C99E400477F35 /* Constants.swift in Sources */,
+				DC9F8CE21D5E107900477F35 /* LocationTableViewController.swift in Sources */,
 				DC9F8CCF1D5C8C2E00477F35 /* StudentLocation.swift in Sources */,
 				DC9F8CCB1D5C8B4F00477F35 /* UdacityClient.swift in Sources */,
 				DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */,
