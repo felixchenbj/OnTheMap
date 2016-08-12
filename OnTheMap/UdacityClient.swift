@@ -8,10 +8,15 @@
 
 import Foundation
 
-class UdacityClient : BaseRestAPIClient{
+class UdacityClient {
     var sessionID: String!
     
     func login(userName: String, password: String, completionHandler: (info: String?, success: Bool) -> Void) {
+        
+        if userName.isEmpty || password.isEmpty {
+            completionHandler(info: "Username or password should not be empty!",  success: false)
+            return
+        }
         
         var headers = [String:String]()
         headers["Accept"] = "application/json"
@@ -19,20 +24,20 @@ class UdacityClient : BaseRestAPIClient{
         
         let HTTPBody = "{\"udacity\": {\"username\": \"\(userName)\", \"password\": \"\(password)\"}}"
         
-        HTTPRequest(Constants.ApiSecureScheme,
-                    host: Constants.Udacity.ApiHost,
-                    path: Constants.Udacity.ApiPath,
-                    pathExtension: Constants.Udacity.ApiPathExtension,
-                    headers: headers,
-                    HTTPMethod: Constants.HTTPMethod.POST,
-                    HTTPBody: HTTPBody) { (data, statusCode, error) in
+        HelperFunctions.HTTPRequest(Constants.ApiSecureScheme,
+                                    host: Constants.Udacity.ApiHost,
+                                    path: Constants.Udacity.ApiPath,
+                                    pathExtension: Constants.Udacity.ApiPathExtension,
+                                    headers: headers,
+                                    HTTPMethod: Constants.HTTPMethod.POST,
+                                    HTTPBody: HTTPBody) { (data, statusCode, error) in
                         
-                        guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
-                            return
-                        }
+                                        guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
+                                            return
+                                        }
 
-                        completionHandler(info: "Login succcessfully, session id: \(self.sessionID)",  success: true)
-                    }
+                                        completionHandler(info: "Login succcessfully, session id: \(self.sessionID)",  success: true)
+                                    }
     }
     
     func logoff(completionHandler: (info: String?, success: Bool) -> Void) {
@@ -48,19 +53,19 @@ class UdacityClient : BaseRestAPIClient{
             headers["X-XSRF-TOKEN"] = xsrfCookie.value
         }
         
-        HTTPRequest(Constants.ApiSecureScheme,
-                    host: Constants.Udacity.ApiHost,
-                    path: Constants.Udacity.ApiPath,
-                    pathExtension: Constants.Udacity.ApiPathExtension,
-                    HTTPMethod: Constants.HTTPMethod.DELETE,
-                    headers: headers ) { (data, statusCode, error) in
+        HelperFunctions.HTTPRequest(Constants.ApiSecureScheme,
+                                    host: Constants.Udacity.ApiHost,
+                                    path: Constants.Udacity.ApiPath,
+                                    pathExtension: Constants.Udacity.ApiPathExtension,
+                                    HTTPMethod: Constants.HTTPMethod.DELETE,
+                                    headers: headers ) { (data, statusCode, error) in
                         
-                        guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
-                            return
-                        }
+                                        guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
+                                            return
+                                        }
                         
-                        completionHandler(info: "Logoff succcessfully, session id: \(self.sessionID)",  success: true)
-                    }
+                                        completionHandler(info: "Logoff succcessfully, session id: \(self.sessionID)",  success: true)
+                                    }
     }
     
     func completionHandlerForUdacity(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {

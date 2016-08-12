@@ -26,13 +26,16 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func login(sender: UIButton) {
+        updateUI(true)
+        
         onTheMapModel.udacityClient.login(usernameTextField.text!, password: passwordTextField.text!) { (info, success) in
             HelperFunctions.performUIUpdatesOnMain({
                 if success {
                     self.loginCompleted()
                 } else {
-                    print("Login failed: \(info)")
+                    print("Login failed: \(info ?? "")")
                     self.displayError(info)
+                    self.updateUI(false)
                 }
             })
         }
@@ -46,12 +49,14 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         originalViewY = self.view.frame.origin.y
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        debugInfoLabel.text = ""
+        updateUI(false)
+        
         subscribeToKeyboardNotifications()
     }
     
@@ -118,6 +123,19 @@ class LoginViewController: UIViewController {
     }
     
     func loginCompleted() {
+        onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
+            HelperFunctions.performUIUpdatesOnMain({
+                if success {
+                    self.switchToTabView()
+                } else {
+                    print("Fetch student loaction failed: \(info)")
+                    self.displayError(info)
+                }
+            })
+        }
+    }
+    
+    func switchToTabView() {
         debugInfoLabel.text = ""
         performSegueWithIdentifier("showTabView", sender: self)
     }
@@ -128,4 +146,13 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func updateUI(loggingin: Bool) {
+        if loggingin {
+            loginButton.enabled = false
+        } else {
+            loginButton.enabled = true
+            loginButton.setTitle("Login", forState: UIControlState.Normal)
+            loginButton.setTitle("Authorizing...", forState: UIControlState.Disabled)
+        }
+    }
 }

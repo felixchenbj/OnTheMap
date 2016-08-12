@@ -20,7 +20,6 @@
 		DC9F8CD71D5D26A700477F35 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC9F8CD61D5D26A700477F35 /* MapKit.framework */; };
 		DC9F8CD91D5D291B00477F35 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CD81D5D291B00477F35 /* MapViewController.swift */; };
 		DC9F8CDC1D5DCB3400477F35 /* OnTheMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */; };
-		DC9F8CDE1D5DCCF000477F35 /* BaseRestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */; };
 		DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +39,6 @@
 		DC9F8CD61D5D26A700477F35 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DC9F8CD81D5D291B00477F35 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnTheMapModel.swift; sourceTree = "<group>"; };
-		DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRestAPIClient.swift; sourceTree = "<group>"; };
 		DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,7 +135,6 @@
 			children = (
 				DC9F8CCA1D5C8B4F00477F35 /* UdacityClient.swift */,
 				DC9F8CCC1D5C8C1200477F35 /* StudentLocationClient.swift */,
-				DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -229,7 +226,6 @@
 				DC3DCFBF1D5B84DE0085F475 /* AppDelegate.swift in Sources */,
 				DC9F8CD31D5C99E400477F35 /* Constants.swift in Sources */,
 				DC9F8CCF1D5C8C2E00477F35 /* StudentLocation.swift in Sources */,
-				DC9F8CDE1D5DCCF000477F35 /* BaseRestAPIClient.swift in Sources */,
 				DC9F8CCB1D5C8B4F00477F35 /* UdacityClient.swift in Sources */,
 				DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */,
 				DC9F8CD91D5D291B00477F35 /* MapViewController.swift in Sources */,
