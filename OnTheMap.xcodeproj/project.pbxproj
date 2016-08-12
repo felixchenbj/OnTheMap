@@ -24,6 +24,9 @@
 		DC9F8CE21D5E107900477F35 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE11D5E107900477F35 /* LocationTableViewController.swift */; };
 		DC9F8CE41D5E726500477F35 /* RoundCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE31D5E726500477F35 /* RoundCornerButton.swift */; };
 		DC9F8CE61D5E759A00477F35 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CE51D5E759A00477F35 /* InformationPostingViewController.swift */; };
+		DC9F8CEA1D5E7FD200477F35 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC9F8CE71D5E7FD200477F35 /* Roboto-Medium.ttf */; };
+		DC9F8CEB1D5E7FD200477F35 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC9F8CE81D5E7FD200477F35 /* Roboto-Regular.ttf */; };
+		DC9F8CEC1D5E7FD200477F35 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC9F8CE91D5E7FD200477F35 /* Roboto-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		DC9F8CE11D5E107900477F35 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 		DC9F8CE31D5E726500477F35 /* RoundCornerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCornerButton.swift; sourceTree = "<group>"; };
 		DC9F8CE51D5E759A00477F35 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
+		DC9F8CE71D5E7FD200477F35 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		DC9F8CE81D5E7FD200477F35 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		DC9F8CE91D5E7FD200477F35 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,9 @@
 		DC3DCFD01D5BBAFA0085F475 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				DC9F8CE71D5E7FD200477F35 /* Roboto-Medium.ttf */,
+				DC9F8CE81D5E7FD200477F35 /* Roboto-Regular.ttf */,
+				DC9F8CE91D5E7FD200477F35 /* Roboto-Thin.ttf */,
 				DC3DCFC21D5B84DF0085F475 /* Main.storyboard */,
 				DC3DCFC51D5B84DF0085F475 /* Assets.xcassets */,
 				DC3DCFC71D5B84DF0085F475 /* LaunchScreen.storyboard */,
@@ -215,7 +224,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC9F8CEA1D5E7FD200477F35 /* Roboto-Medium.ttf in Resources */,
 				DC3DCFC91D5B84DF0085F475 /* LaunchScreen.storyboard in Resources */,
+				DC9F8CEC1D5E7FD200477F35 /* Roboto-Thin.ttf in Resources */,
+				DC9F8CEB1D5E7FD200477F35 /* Roboto-Regular.ttf in Resources */,
 				DC3DCFC61D5B84DF0085F475 /* Assets.xcassets in Resources */,
 				DC3DCFC41D5B84DF0085F475 /* Main.storyboard in Resources */,
 			);

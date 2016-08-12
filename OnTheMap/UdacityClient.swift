@@ -68,7 +68,7 @@ class UdacityClient {
                                     }
     }
     
-    func completionHandlerForUdacity(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
+    private func completionHandlerForUdacity(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
         
         guard (error == nil) else {
             completionHandler(info: "There was an error with your request.",  success: false)
@@ -96,7 +96,7 @@ class UdacityClient {
         return true
     }
     
-    func parseSessionID(data: AnyObject!) -> Bool{
+    private func parseSessionID(data: AnyObject!) -> Bool{
         if let session = data["session"] as? [String: AnyObject] {
             if let id = session["id"] as? String {
                 print("Udacity session id is \(id)")

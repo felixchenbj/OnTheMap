@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func signUp(sender: UIButton) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.udacity.com/account/auth#!/signup")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: Constants.Udacity.SignupLink)!)
     }
     
     override func viewDidLoad() {

@@ -31,6 +31,8 @@ struct Constants {
         static let ApiHost = "www.udacity.com"
         static let ApiPath = "/api"
         static let ApiPathExtension = "/session"
+        
+        static let SignupLink = "https://www.udacity.com/account/auth#!/signup"
     }
     
     struct Parse {

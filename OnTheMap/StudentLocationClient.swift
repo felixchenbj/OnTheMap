@@ -41,7 +41,7 @@ class StudentLocationClient {
                                     }
     }
     
-    func completionHandlerForStudentLocation(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
+    private func completionHandlerForStudentLocation(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
         
         guard (error == nil) else {
             completionHandler(info: "There was an error with your request.",  success: false)
@@ -69,7 +69,7 @@ class StudentLocationClient {
         return true
     }
     
-    func parseStudentLocations(data: AnyObject!) -> Bool{
+    private func parseStudentLocations(data: AnyObject!) -> Bool{
         if let results = data["results"] as? [AnyObject] {
             print("Student location from server count: \(results.count)")
             
