@@ -19,6 +19,9 @@
 		DC9F8CD31D5C99E400477F35 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CD21D5C99E400477F35 /* Constants.swift */; };
 		DC9F8CD71D5D26A700477F35 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC9F8CD61D5D26A700477F35 /* MapKit.framework */; };
 		DC9F8CD91D5D291B00477F35 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CD81D5D291B00477F35 /* MapViewController.swift */; };
+		DC9F8CDC1D5DCB3400477F35 /* OnTheMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */; };
+		DC9F8CDE1D5DCCF000477F35 /* BaseRestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */; };
+		DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		DC9F8CD21D5C99E400477F35 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DC9F8CD61D5D26A700477F35 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DC9F8CD81D5D291B00477F35 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnTheMapModel.swift; sourceTree = "<group>"; };
+		DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRestAPIClient.swift; sourceTree = "<group>"; };
+		DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +79,7 @@
 				DC3DCFD21D5BBB300085F475 /* Model */,
 				DC3DCFD31D5BBB3C0085F475 /* View */,
 				DC3DCFD41D5BBB430085F475 /* Controller */,
-				DC3DCFBE1D5B84DE0085F475 /* AppDelegate.swift */,
+				DC9F8CDA1D5DC7BB00477F35 /* Others */,
 				DC3DCFD01D5BBAFA0085F475 /* Assets */,
 				DC3DCFD11D5BBB140085F475 /* Supporting Files */,
 			);
@@ -104,6 +110,7 @@
 				DC9F8CC91D5C8B3400477F35 /* Client */,
 				DC9F8CCE1D5C8C2E00477F35 /* StudentLocation.swift */,
 				DC9F8CD21D5C99E400477F35 /* Constants.swift */,
+				DC9F8CDB1D5DCB3400477F35 /* OnTheMapModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -130,8 +137,18 @@
 			children = (
 				DC9F8CCA1D5C8B4F00477F35 /* UdacityClient.swift */,
 				DC9F8CCC1D5C8C1200477F35 /* StudentLocationClient.swift */,
+				DC9F8CDD1D5DCCF000477F35 /* BaseRestAPIClient.swift */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		DC9F8CDA1D5DC7BB00477F35 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				DC3DCFBE1D5B84DE0085F475 /* AppDelegate.swift */,
+				DC9F8CDF1D5DEF8E00477F35 /* HelperFunctions.swift */,
+			);
+			name = Others;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,12 +223,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC9F8CC81D5BEEAF00477F35 /* LoginViewController.swift in Sources */,
+				DC9F8CDC1D5DCB3400477F35 /* OnTheMapModel.swift in Sources */,
 				DC9F8CCD1D5C8C1200477F35 /* StudentLocationClient.swift in Sources */,
 				DC9F8CD11D5C91CF00477F35 /* CustomTextField.swift in Sources */,
 				DC3DCFBF1D5B84DE0085F475 /* AppDelegate.swift in Sources */,
 				DC9F8CD31D5C99E400477F35 /* Constants.swift in Sources */,
 				DC9F8CCF1D5C8C2E00477F35 /* StudentLocation.swift in Sources */,
+				DC9F8CDE1D5DCCF000477F35 /* BaseRestAPIClient.swift in Sources */,
 				DC9F8CCB1D5C8B4F00477F35 /* UdacityClient.swift in Sources */,
+				DC9F8CE01D5DEF8E00477F35 /* HelperFunctions.swift in Sources */,
 				DC9F8CD91D5D291B00477F35 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

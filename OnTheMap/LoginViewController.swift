@@ -17,16 +17,24 @@ class LoginViewController: UIViewController {
     
     var originalViewY: CGFloat = 0.0
     var keyboardToMove: CGFloat = 0.0
-    var udacityCity: UdacityClient!
+    
+    var onTheMapModel: OnTheMapModel {
+        get {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            return appDelegate.onTheMapModel
+        }
+    }
     
     @IBAction func login(sender: UIButton) {
-        udacityCity.login(usernameTextField.text!, password: passwordTextField.text!) { (result, error) in
-            
-            if error == nil {
-                self.performSegueWithIdentifier("showTabView", sender: self)
-            } else {
-                print("Login failed: \(error)")
-            }
+        onTheMapModel.udacityClient.login(usernameTextField.text!, password: passwordTextField.text!) { (info, success) in
+            HelperFunctions.performUIUpdatesOnMain({
+                if success {
+                    self.loginCompleted()
+                } else {
+                    print("Login failed: \(info)")
+                    self.displayError(info)
+                }
+            })
         }
     }
     
@@ -38,13 +46,12 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         originalViewY = self.view.frame.origin.y
-        
-        udacityCity = UdacityClient()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        debugInfoLabel.text = ""
         subscribeToKeyboardNotifications()
     }
     
@@ -56,13 +63,6 @@ class LoginViewController: UIViewController {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
-    }
-    
-    deinit {
-        udacityCity.logoff { (result, error) in
-            print("Logoff failed: \(error)")
-        }
-
     }
     
     func subscribeToKeyboardNotifications() {
@@ -115,6 +115,17 @@ class LoginViewController: UIViewController {
             }
         }
         return result
+    }
+    
+    func loginCompleted() {
+        debugInfoLabel.text = ""
+        performSegueWithIdentifier("showTabView", sender: self)
+    }
+    
+    func displayError(errorString: String?) {
+        if let errorString = errorString {
+            debugInfoLabel.text = errorString
+        }
     }
     
 }
