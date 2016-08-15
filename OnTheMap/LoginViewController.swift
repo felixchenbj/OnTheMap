@@ -13,7 +13,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var debugInfoLabel: UILabel!
     
     var originalViewY: CGFloat = 0.0
     var keyboardToMove: CGFloat = 0.0
@@ -32,8 +31,12 @@ class LoginViewController: UIViewController {
                 if success {
                     self.loginCompleted()
                 } else {
-                    print("Login failed: \(info ?? "")")
-                    self.displayError(info)
+                    
+                    if let info = info {
+                        print("Login failed: \(info)")
+                        FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Login failed: "+info, handler: nil)
+                    }
+                    
                     self.updateUI(false)
                 }
             })
@@ -127,22 +130,13 @@ class LoginViewController: UIViewController {
                 if success {
                     self.switchToTabView()
                 } else {
-                    print("Fetch student loaction failed: \(info)")
-                    self.displayError(info)
-                }
+                    print("Fetch student loaction failed: \(info)")                }
             })
         }
     }
     
     func switchToTabView() {
-        debugInfoLabel.text = ""
         performSegueWithIdentifier("showTabView", sender: self)
-    }
-    
-    func displayError(errorString: String?) {
-        if let errorString = errorString {
-            debugInfoLabel.text = errorString
-        }
     }
     
     func updateUI(loggingin: Bool) {

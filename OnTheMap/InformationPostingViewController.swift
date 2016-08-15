@@ -91,38 +91,48 @@ class InformationPostingViewController: UIViewController {
         view.endEditing(true)
     }
     
-    func updateUIAccordingToViewMode(mode: ViewMode) {
+    func updateUIAccordingToViewMode(mode: ViewMode, animated: Bool = true) {
         currentViewMode = mode
         switch currentViewMode{
         case .PromptMode:
             print("PromptMode")
             
-            UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
+            if animated {
+                UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
                     self.submitStackView.alpha = 0
-                }, completion: { finished in
-                    
-                    UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
-                        self.promptStackView.alpha = 1
-                        }, completion: nil)
-                    
-                    self.promptStackView.hidden = false
-                    self.submitStackView.hidden = true
-            })
+                    }, completion: { finished in
+                        
+                        UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
+                            self.promptStackView.alpha = 1
+                            }, completion: nil)
+                        
+                        self.promptStackView.hidden = false
+                        self.submitStackView.hidden = true
+                })
+            } else {
+                self.promptStackView.hidden = false
+                self.submitStackView.hidden = true
+            }
             
             cancelButton.setTitleColor(cancelButton.tintColor, forState: UIControlState.Normal)
         case .SubmitMode:
             print("SubmitMode")
-            UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
-                self.promptStackView.alpha = 0
-                }, completion: { finished in
-                    
-                    UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
-                        self.submitStackView.alpha = 1
-                        }, completion: nil)
-                    
-                    self.promptStackView.hidden = true
-                    self.submitStackView.hidden = false
-            })
+            if animated {
+                UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
+                    self.promptStackView.alpha = 0
+                    }, completion: { finished in
+                        
+                        UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
+                            self.submitStackView.alpha = 1
+                            }, completion: nil)
+                        
+                        self.promptStackView.hidden = true
+                        self.submitStackView.hidden = false
+                })
+            } else {
+                self.promptStackView.hidden = true
+                self.submitStackView.hidden = false
+            }
             cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
     }

@@ -91,7 +91,10 @@ class UdacityClient {
         }
         
         guard self.parseSessionID(parsedResult) else {
-            completionHandler(info: "Could not find session in the response data: \(parsedResult)",  success: false)
+            if let error = parsedResult["error"] as? String {
+                completionHandler(info: error,  success: false)
+            }
+            
             return false
         }
         
