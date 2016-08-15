@@ -16,6 +16,17 @@ class StudentLocationClient {
         studentLocationList.removeAll()
     }
     
+    func count() -> Int{
+        return studentLocationList.count
+    }
+    
+    func getStudentLocatAt(index: Int) -> StudentLocation? {
+        guard index >= 0 && index < studentLocationList.count else {
+            return nil
+        }
+        return studentLocationList[index]
+    }
+    
     func fetchStudentLoactionList(completionHandler: (info: String?, success: Bool) -> Void) {
         
         var headers = [String:String]()

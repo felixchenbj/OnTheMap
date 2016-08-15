@@ -17,6 +17,8 @@ class InformationPostingViewController: UIViewController {
     }
     var currentViewMode = ViewMode.PromptMode
     
+    var studentLocation: StudentLocation!
+    
     @IBOutlet weak var cancelButton: UIButton!
     
     
@@ -29,15 +31,12 @@ class InformationPostingViewController: UIViewController {
     
     @IBOutlet weak var submitStackView: UIStackView!
     @IBOutlet weak var linkTextField: UITextField!
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func submit(sender: UIButton) {
         updateUIAccordingToViewMode(.PromptMode)
-    }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -85,6 +84,46 @@ class InformationPostingViewController: UIViewController {
             })
             cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
+        updateContentToUI()
     }
     
+    func updateContentToUI() {
+        if let studentLocation = studentLocation {
+            switch currentViewMode {
+            case .PromptMode:
+                addressTextField.text = studentLocation.mediaURL
+            case .SubmitMode:
+                
+                lastNameTextField.text = studentLocation.lastName
+                firstNameTextField.text = studentLocation.firstName
+                clearAllAnnotations()
+                
+                if let annotation = generateAnnotationFromStudentLocation() {
+                    mapView.addAnnotation(annotation)
+                }
+            }
+        }
+    }
+    
+    func generateAnnotationFromStudentLocation() -> MKPointAnnotation?{
+        
+        if let studentLocation = studentLocation {
+            let annotation = MKPointAnnotation()
+            
+            let latitude = CLLocationDegrees(studentLocation.latitude)
+            let longitude = CLLocationDegrees(studentLocation.longitude)
+            
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            annotation.coordinate = coordinate
+            annotation.title = "\(studentLocation.firstName) \(studentLocation.lastName)"
+            annotation.subtitle = studentLocation.mediaURL
+            return annotation
+        }
+        return nil
+    }
+
+    func clearAllAnnotations() {
+        mapView.removeAnnotations(mapView.annotations)
+    }
 }

@@ -18,6 +18,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    var currentStudentLocationIndex = 0
+    
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func logout(sender: UIBarButtonItem) {
@@ -52,9 +54,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addAnnotationsFromStudentLocations()
-        
         mapView.delegate = self
+        
+        addAnnotationsFromStudentLocations()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let currentStudentLocation = onTheMapModel.studentLocationClient.getStudentLocatAt(currentStudentLocationIndex) {
+            print("centerMapOnStudentLocation, first location")
+            HelperFunctions.centerMapOnStudentLocation(currentStudentLocation, mapView: mapView)
+        }
     }
     
     func switchBackToLogin() {
@@ -116,12 +127,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            if var toOpen = view.annotation?.subtitle! {
+            if let toOpen = view.annotation?.subtitle! {
                 print("Open the URL in annotation: \(toOpen)")
-                if !toOpen.hasPrefix(Constants.ApiScheme) {
-                    toOpen = Constants.ApiScheme + "://" + toOpen
+                var urlToOpen = toOpen
+                if !urlToOpen.hasPrefix(Constants.ApiScheme) {
+                    urlToOpen = Constants.ApiScheme + "://" + urlToOpen
                 }
-                UIApplication.sharedApplication().openURL(NSURL(string: toOpen)!)
+                if let url  = NSURL(string: urlToOpen) {
+                    if UIApplication.sharedApplication().canOpenURL(url) {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
+                }
             }
         }
     }
