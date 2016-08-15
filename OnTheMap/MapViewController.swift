@@ -13,8 +13,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     var onTheMapModel: OnTheMapModel {
         get {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            return appDelegate.onTheMapModel
+            return OnTheMapModel.sharedModel()
         }
     }
     
@@ -24,9 +23,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func logout(sender: UIBarButtonItem) {
         onTheMapModel.udacityClient.logoff { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
-                    self.switchBackToLogin()
+                    UIHelper.switchToLoginView(self)
                 } else {
                     print("Logoff failed: \(info)")
                 }
@@ -36,7 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func refresh(sender: UIBarButtonItem) {
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.clearAllAnnotations()
                     self.addAnnotationsFromStudentLocations()
@@ -49,6 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func pin(sender: UIBarButtonItem) {
+        UIHelper.switchToInformationPostingView(self)
     }
     
     override func viewDidLoad() {
@@ -64,15 +64,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         if let currentStudentLocation = onTheMapModel.studentLocationClient.getStudentLocatAt(currentStudentLocationIndex) {
             print("centerMapOnStudentLocation, first location")
-            HelperFunctions.centerMapOnStudentLocation(currentStudentLocation, mapView: mapView)
+            FunctionsHelper.centerMapOnStudentLocation(currentStudentLocation, mapView: mapView)
         }
-    }
-    
-    func switchBackToLogin() {
-        let storyboard = UIStoryboard (name: "Main", bundle: nil)
-        let resultVC = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")as! LoginViewController
-        
-        presentViewController(resultVC, animated: true, completion:nil)
     }
     
     func clearAllAnnotations() {

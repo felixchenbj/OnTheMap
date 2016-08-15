@@ -37,7 +37,7 @@ class StudentLocationClient {
         parameters["limit"] = 100
         parameters["order"] = "-updatedAt"
         
-        HelperFunctions.HTTPRequest(Constants.ApiSecureScheme,
+        HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
                                     host: Constants.Parse.ApiHost,
                                     path: Constants.Parse.ApiPath,
                                     pathExtension: Constants.Parse.ApiPathExtension,
@@ -50,6 +50,30 @@ class StudentLocationClient {
                                         
                                         completionHandler(info: "Fetch student location succcessfully, count: \(self.studentLocationList.count)",  success: true)
                                     }
+    }
+    
+    func postStudentLocation(studentLocation: StudentLocation, completionHandler: (info: String?, success: Bool) -> Void) {
+        
+        var headers = [String:String]()
+        headers["X-Parse-Application-Id"] = Constants.Parse.ApplicationID
+        headers["X-Parse-REST-API-Key"] = Constants.Parse.APIKey
+        headers["Content-Type"] = "application/json"
+        
+        let HTTPBody = "{\"uniqueKey\": \"\(studentLocation.uniqueKey)\", \"firstName\": \"\(studentLocation.firstName)\", \"lastName\": \"\(studentLocation.lastName)\",\"mapString\": \"\(studentLocation.mapString)\", \"mediaURL\": \"\(studentLocation.mediaURL)\",\"latitude\": \(studentLocation.latitude), \"longitude\": \(studentLocation.longitude)}"
+        
+        HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
+                               host: Constants.Parse.ApiHost,
+                               path: Constants.Parse.ApiPath,
+                               pathExtension: Constants.Parse.ApiPathExtension,
+                               HTTPMethod: Constants.HTTPMethod.POST,
+                               headers: headers,
+                               HTTPBody: HTTPBody ) { (data, statusCode, error) in
+                                
+                                guard self.completionHandlerForPostStudentLocation(data, error: error, completionHandler: completionHandler) else {
+                                    return
+                                }
+                                completionHandler(info: "Post student location succcessfully.",  success: true)
+                            }
     }
     
     private func completionHandlerForStudentLocation(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
@@ -76,6 +100,37 @@ class StudentLocationClient {
             return false
         }
         print("Student location in the list: \(self.studentLocationList.count)")
+        
+        return true
+    }
+    
+    private func completionHandlerForPostStudentLocation(data: NSData?, error: NSError?, completionHandler: (info: String?, success: Bool) -> Void) -> Bool {
+        
+        guard (error == nil) else {
+            completionHandler(info: "There was an error with your request.",  success: false)
+            return false
+        }
+        
+        guard let data = data else {
+            completionHandler(info: "No data was returned by the request!",  success: false)
+            return false
+        }
+        
+        var parsedResult: AnyObject!
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+        } catch {
+            completionHandler(info: "Could not parse the data as JSON: \(data)",  success: false)
+        }
+        
+        
+        guard let objectId = parsedResult["objectId"] as? String else {
+            print(parsedResult)
+            completionHandler(info: "Could not find objectId in the response: \(parsedResult)",  success: false)
+            return false
+        }
+
+        print("Student location objectId is: \(objectId)")
         
         return true
     }

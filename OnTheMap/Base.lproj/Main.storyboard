@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="TsZ-wa-iQq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="sBb-zU-kG7">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -130,7 +130,7 @@ today?</string>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-d3-k9Z">
                                                         <rect key="frame" x="0.0" y="45" width="250" height="30"/>
                                                         <subviews>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Deo-GH-mdk" userLabel="Last Name">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Deo-GH-mdk" userLabel="Last Name">
                                                                 <rect key="frame" x="0.0" y="0.0" width="123" height="30"/>
                                                                 <color key="backgroundColor" red="0.29751728129999999" green="0.51327543740000003" blue="0.7458066418" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <constraints>
@@ -140,7 +140,7 @@ today?</string>
                                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                             </textField>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QVE-Ht-9rz" userLabel="First Name">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QVE-Ht-9rz" userLabel="First Name">
                                                                 <rect key="frame" x="128" y="0.0" width="122" height="30"/>
                                                                 <color key="backgroundColor" red="0.29751728129999999" green="0.51327543740000003" blue="0.7458066418" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <constraints>
@@ -212,6 +212,9 @@ today?</string>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                 <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancel:" destination="98I-aD-SXb" eventType="touchUpInside" id="4IA-tG-Sx3"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -236,8 +239,8 @@ today?</string>
                     <connections>
                         <outlet property="addressTextField" destination="92d-r1-rTJ" id="m2S-hz-Vfw"/>
                         <outlet property="cancelButton" destination="QPm-3z-Awj" id="5BC-Wf-pLT"/>
-                        <outlet property="firstNameTextField" destination="QVE-Ht-9rz" id="gIm-xy-Ypy"/>
-                        <outlet property="lastNameTextField" destination="Deo-GH-mdk" id="7wp-7L-Jn9"/>
+                        <outlet property="firstNameTextField" destination="Deo-GH-mdk" id="e5z-1X-13h"/>
+                        <outlet property="lastNameTextField" destination="QVE-Ht-9rz" id="ZNw-XL-Z1R"/>
                         <outlet property="linkTextField" destination="gN2-NB-AlF" id="7zH-VI-62m"/>
                         <outlet property="mapView" destination="qpF-Ef-shI" id="qKo-N5-hCL"/>
                         <outlet property="promptStackView" destination="AHw-0t-0re" id="vVd-kx-pPm"/>

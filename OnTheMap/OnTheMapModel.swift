@@ -9,6 +9,11 @@
 import Foundation
 
 class OnTheMapModel {
+    
+    static private var shardModel = OnTheMapModel()
+    static func sharedModel() -> OnTheMapModel  {
+        return shardModel
+    }
     var udacityClient = UdacityClient()
     var studentLocationClient = StudentLocationClient()
     

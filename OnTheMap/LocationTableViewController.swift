@@ -12,17 +12,25 @@ class LocationTableViewController: UITableViewController {
 
     var onTheMapModel: OnTheMapModel {
         get {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            return appDelegate.onTheMapModel
+            return OnTheMapModel.sharedModel()
         }
     }
     
     @IBAction func logout(sender: UIBarButtonItem) {
+        onTheMapModel.udacityClient.logoff { (info, success) in
+            FunctionsHelper.performUIUpdatesOnMain({
+                if success {
+                    UIHelper.switchToLoginView(self)
+                } else {
+                    print("Logoff failed: \(info)")
+                }
+            })
+        }
     }
     
     @IBAction func refresh(sender: UIBarButtonItem) {
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.tableView.reloadData()
                 } else {
@@ -33,6 +41,7 @@ class LocationTableViewController: UITableViewController {
     }
     
     @IBAction func pin(sender: UIBarButtonItem) {
+        UIHelper.switchToInformationPostingView(self)
     }
     
     override func viewDidLoad() {
@@ -74,7 +83,7 @@ class LocationTableViewController: UITableViewController {
     func refreshStatusChanged() {
         print("refreshStatusChanged")
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.tableView.reloadData()
                     print("end refreshing")

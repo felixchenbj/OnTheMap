@@ -1,16 +1,14 @@
 //
-//  HelperFunctions.swift
+//  HTTPHelper.swift
 //  OnTheMap
 //
-//  Created by felix on 8/12/16.
+//  Created by felix on 8/15/16.
 //  Copyright © 2016 Felix Chen. All rights reserved.
 //
 
-import UIKit
-import MapKit
+import Foundation
 
-struct HelperFunctions {
-    
+struct HTTPHelper {
     static func HTTPRequest(schema: String, host: String, path: String, pathExtension: String? = nil, HTTPMethod: String = Constants.HTTPMethod.GET, headers: [String: String]? = nil, parameters: [String:AnyObject]? = nil, HTTPBody: String? = nil, completionHandler: (NSData?, Int?, NSError?) -> Void) -> NSURLSessionDataTask {
         
         let request = NSMutableURLRequest(URL: buildURL(schema, host: host, path: path, pathExtension: pathExtension, HTTPMethod: HTTPMethod, parameters: parameters))
@@ -54,28 +52,5 @@ struct HelperFunctions {
         
         return components.URL!
     }
-    
-    static func performUIUpdatesOnMain(updates: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
-            updates()
-        }
-    }
-    
-    static func popupAnOKAlert(title:String, message:String, handler: ((UIAlertAction) -> Void)?) {
-        let controller = UIAlertController()
-        controller.title = title
-        controller.message = message
-        
-        let okAction = UIAlertAction (title:"OK", style: UIAlertActionStyle.Default, handler: handler)
-        controller.addAction(okAction)
-    }
-    
-    
-    static func centerMapOnStudentLocation(studentLocation: StudentLocation, mapView: MKMapView) {
-        let location = CLLocation(latitude: studentLocation.latitude, longitude: studentLocation.longitude)
-        print("Center to (\(studentLocation.latitude), \(studentLocation.longitude))")
-        let regionRadius: CLLocationDistance = 1000
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
+
 }

@@ -19,6 +19,12 @@ class InformationPostingViewController: UIViewController {
     
     var studentLocation: StudentLocation!
     
+    var onTheMapModel: OnTheMapModel {
+        get {
+            return OnTheMapModel.sharedModel()
+        }
+    }
+    
     @IBOutlet weak var cancelButton: UIButton!
     
     
@@ -26,7 +32,31 @@ class InformationPostingViewController: UIViewController {
     @IBOutlet weak var addressTextField: UITextField!
     
     @IBAction func findOnTheMap(sender: UIButton) {
-        updateUIAccordingToViewMode(.SubmitMode)
+        if let address = addressTextField.text {
+            if address.isEmpty {
+                FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "The address should not be empty. Please input a address.", handler: nil)
+            } else {
+                
+                findAddressOnMap(address, completionHandler: { (studentLocation, success) in
+                    FunctionsHelper.performUIUpdatesOnMain({
+                        if success {
+                            self.studentLocation = studentLocation
+                            if let annotation = self.generateAnnotationFromStudentLocation() {
+                                self.clearAllAnnotations()
+                                self.mapView.addAnnotation(annotation)
+                                FunctionsHelper.centerMapOnStudentLocation(self.studentLocation, mapView: self.mapView)
+                            }
+                            self.updateUIAccordingToViewMode(.SubmitMode)
+                            
+                        } else {
+                            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid address. Please try another address.", handler: { action in
+                                self.addressTextField.text = ""
+                            })
+                        }
+                    })
+                })
+            }
+        }
     }
     
     @IBOutlet weak var submitStackView: UIStackView!
@@ -36,7 +66,19 @@ class InformationPostingViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func submit(sender: UIButton) {
-        updateUIAccordingToViewMode(.PromptMode)
+        if validateValueOfTextField() {
+            
+            studentLocation.firstName = firstNameTextField.text!
+            studentLocation.lastName = lastNameTextField.text!
+            studentLocation.mediaURL = linkTextField.text!
+            
+            postStudentLocation()
+        }
+    }
+    
+    @IBAction func cancel(sender: UIButton) {
+        studentLocation = nil
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,7 +103,6 @@ class InformationPostingViewController: UIViewController {
                     
                     UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
                         self.promptStackView.alpha = 1
-                        //self.submitStackView.alpha = 0
                         }, completion: nil)
                     
                     self.promptStackView.hidden = false
@@ -83,25 +124,6 @@ class InformationPostingViewController: UIViewController {
                     self.submitStackView.hidden = false
             })
             cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        }
-        updateContentToUI()
-    }
-    
-    func updateContentToUI() {
-        if let studentLocation = studentLocation {
-            switch currentViewMode {
-            case .PromptMode:
-                addressTextField.text = studentLocation.mediaURL
-            case .SubmitMode:
-                
-                lastNameTextField.text = studentLocation.lastName
-                firstNameTextField.text = studentLocation.firstName
-                clearAllAnnotations()
-                
-                if let annotation = generateAnnotationFromStudentLocation() {
-                    mapView.addAnnotation(annotation)
-                }
-            }
         }
     }
     
@@ -125,5 +147,92 @@ class InformationPostingViewController: UIViewController {
 
     func clearAllAnnotations() {
         mapView.removeAnnotations(mapView.annotations)
+    }
+    
+    func findAddressOnMap(address: String, completionHandler: (studentLocation: StudentLocation?, success: Bool) -> Void) {
+        
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+                print("completion")
+                guard error == nil else {
+                    print(error)
+                    completionHandler(studentLocation: nil, success: false)
+
+                    return
+                }
+                
+                if placemarks?.count > 0 {
+                    let placemark = placemarks![0]
+                    print(placemark.name, placemark.country, placemark.locality, placemark.subLocality, placemark.thoroughfare, placemark.subThoroughfare)
+                    
+                    var studentLocation = StudentLocation()
+                    
+                    studentLocation.mapString = address
+                    studentLocation.latitude = (placemark.location?.coordinate.latitude)!
+                    studentLocation.longitude = (placemark.location?.coordinate.longitude)!
+                    
+                    studentLocation.uniqueKey = self.onTheMapModel.udacityClient.accountKey
+                    
+                    completionHandler(studentLocation: studentLocation, success: true)
+                    return
+                }
+            
+                completionHandler(studentLocation: nil, success: false)
+        }
+    }
+    
+    func postStudentLocation() {
+        
+        if let studentLocation = studentLocation {
+            onTheMapModel.studentLocationClient.postStudentLocation(studentLocation, completionHandler: { (info, success) in
+                FunctionsHelper.performUIUpdatesOnMain({
+                if success {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                } else {
+                    FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Post student location failed: \(info)", handler: nil)
+                }
+                })
+            })
+        }
+    }
+    
+    func validateValueOfTextField() -> Bool{
+        if let linkString = linkTextField.text {
+            if linkString.isEmpty {
+            FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "The link should not be empty. Please input a link.", handler: nil)
+            return false
+            }
+            if let url  = NSURL(string: linkString) {
+                if !UIApplication.sharedApplication().canOpenURL(url) {
+                    FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid link. Please try another link.", handler: nil)
+                    return false
+                }
+            }
+        } else {
+            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid link. Please try another link.", handler: nil)
+            return false
+        }
+        
+        if let firstname = firstNameTextField.text {
+            if firstname.isEmpty {
+                FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "Firstname shoulde not be empty. Please input a firstname.", handler: nil)
+                return false
+            }
+        } else {
+            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid firstname. Please try another one.", handler: nil)
+            return false
+        }
+        
+        if let lastname = lastNameTextField.text {
+            if lastname.isEmpty {
+                FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "Lastname shoulde not be empty. Please input a lastname.", handler: nil)
+                return false
+            }
+        } else {
+            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid lastname. Please try another one.", handler: nil)
+            return false
+        }
+        
+        return true
     }
 }

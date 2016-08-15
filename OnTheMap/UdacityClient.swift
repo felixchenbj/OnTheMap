@@ -10,6 +10,7 @@ import Foundation
 
 class UdacityClient {
     var sessionID: String!
+    var accountKey: String!
     
     func login(userName: String, password: String, completionHandler: (info: String?, success: Bool) -> Void) {
         
@@ -24,7 +25,7 @@ class UdacityClient {
         
         let HTTPBody = "{\"udacity\": {\"username\": \"\(userName)\", \"password\": \"\(password)\"}}"
         
-        HelperFunctions.HTTPRequest(Constants.ApiSecureScheme,
+        HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
                                     host: Constants.Udacity.ApiHost,
                                     path: Constants.Udacity.ApiPath,
                                     pathExtension: Constants.Udacity.ApiPathExtension,
@@ -53,7 +54,7 @@ class UdacityClient {
             headers["X-XSRF-TOKEN"] = xsrfCookie.value
         }
         
-        HelperFunctions.HTTPRequest(Constants.ApiSecureScheme,
+        HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
                                     host: Constants.Udacity.ApiHost,
                                     path: Constants.Udacity.ApiPath,
                                     pathExtension: Constants.Udacity.ApiPathExtension,
@@ -93,6 +94,9 @@ class UdacityClient {
             completionHandler(info: "Could not find session in the response data: \(parsedResult)",  success: false)
             return false
         }
+        
+        self.parseAccountKey(parsedResult)
+        
         return true
     }
     
@@ -106,4 +110,16 @@ class UdacityClient {
         }
         return false
     }
+    
+    private func parseAccountKey(data: AnyObject!) -> Bool{
+        if let session = data["account"] as? [String: AnyObject] {
+            if let key = session["key"] as? String {
+                print("Udacity account key is \(key)")
+                accountKey = key
+                return true
+            }
+        }
+        return false
+    }
+
 }

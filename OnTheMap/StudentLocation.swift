@@ -20,6 +20,20 @@ struct StudentLocation {
     var createdAt: NSDate
     var updatedAt: NSDate
     
+    
+    init() {
+        objectId = ""
+        uniqueKey = ""
+        firstName = ""
+        lastName = ""
+        mapString = ""
+        mediaURL = ""
+        latitude = 0.0
+        longitude = 0.0
+        createdAt = NSDate()
+        updatedAt = NSDate()
+    }
+    
     init?(dictionary: [String:AnyObject]) {
         
         if let objectId = dictionary[StudentLocation.Keys.objectId] as? String,

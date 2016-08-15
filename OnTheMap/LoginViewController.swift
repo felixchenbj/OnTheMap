@@ -20,8 +20,7 @@ class LoginViewController: UIViewController {
     
     var onTheMapModel: OnTheMapModel {
         get {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            return appDelegate.onTheMapModel
+            return OnTheMapModel.sharedModel()
         }
     }
     
@@ -29,7 +28,7 @@ class LoginViewController: UIViewController {
         updateUI(true)
         
         onTheMapModel.udacityClient.login(usernameTextField.text!, password: passwordTextField.text!) { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.loginCompleted()
                 } else {
@@ -124,7 +123,7 @@ class LoginViewController: UIViewController {
     
     func loginCompleted() {
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
-            HelperFunctions.performUIUpdatesOnMain({
+            FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.switchToTabView()
                 } else {
