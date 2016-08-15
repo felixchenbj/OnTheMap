@@ -16,7 +16,7 @@ struct Constants {
     static let ApiHost = "api.themoviedb.org"
     
     static let ApiPath = "/3"
-    static let AuthorizationURL: String = "https://www.themoviedb.org/authenticate/"
+    static let AuthorizationURL = "https://www.themoviedb.org/authenticate/"
     
     static let UdacitySession = "https://www.udacity.com/api/session"
     

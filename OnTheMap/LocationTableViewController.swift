@@ -29,15 +29,7 @@ class LocationTableViewController: UITableViewController {
     }
     
     @IBAction func refresh(sender: UIBarButtonItem) {
-        onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
-            FunctionsHelper.performUIUpdatesOnMain({
-                if success {
-                    self.tableView.reloadData()
-                } else {
-                    print("Fetch student loaction failed: \(info)")
-                }
-            })
-        }
+        refreshData()
     }
     
     @IBAction func pin(sender: UIBarButtonItem) {
@@ -49,7 +41,6 @@ class LocationTableViewController: UITableViewController {
         
         refreshControl?.addTarget(self, action: #selector(LocationTableViewController.refreshStatusChanged), forControlEvents: UIControlEvents.ValueChanged)
     }
-    
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return onTheMapModel.studentLocationClient.studentLocationList.count
@@ -79,19 +70,27 @@ class LocationTableViewController: UITableViewController {
         tabBarController?.selectedIndex = 0
     }
     
-    
     func refreshStatusChanged() {
         print("refreshStatusChanged")
+        refreshData(true)
+    }
+    
+    private func refreshData(forRefreshControl: Bool = false) {
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.tableView.reloadData()
-                    print("end refreshing")
-                    self.refreshControl?.endRefreshing()
+                    
+                    if forRefreshControl {
+                        print("end refreshing")
+                        self.refreshControl?.endRefreshing()
+                    }
                 } else {
                     print("Fetch student loaction failed: \(info)")
+                    FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Fetch student loaction failed.", handler: nil)
                 }
             })
         }
+
     }
 }
