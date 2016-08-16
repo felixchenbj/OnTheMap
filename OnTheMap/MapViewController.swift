@@ -17,8 +17,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    var currentStudentLocationIndex = 0
-    
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func logout(sender: UIBarButtonItem) {
@@ -62,9 +60,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let currentStudentLocation = onTheMapModel.studentLocationClient.getStudentLocatAt(currentStudentLocationIndex) {
+        
+        if let firstStudentLocation = onTheMapModel.studentLocationClient.getStudentLocatAt(0) {
             print("centerMapOnStudentLocation, first location")
-            FunctionsHelper.centerMapOnStudentLocation(currentStudentLocation, mapView: mapView)
+            FunctionsHelper.centerMapOnStudentLocation(firstStudentLocation, mapView: mapView)
         }
     }
     

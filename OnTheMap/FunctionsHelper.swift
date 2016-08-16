@@ -17,12 +17,6 @@ struct FunctionsHelper {
         }
     }
     
-    static func performWaitForCompletionUpdatesOnMain(updates: () -> Void) {
-        dispatch_sync(dispatch_get_main_queue()) {
-            updates()
-        }
-    }
-    
     static func popupAnOKAlert(viewController: UIViewController,title:String, message:String, handler: ((UIAlertAction) -> Void)?) {
         let controller = UIAlertController()
         controller.title = title
@@ -36,7 +30,7 @@ struct FunctionsHelper {
     static func centerMapOnStudentLocation(studentLocation: StudentLocation, mapView: MKMapView) {
         let location = CLLocation(latitude: studentLocation.latitude, longitude: studentLocation.longitude)
         print("Center to (\(studentLocation.latitude), \(studentLocation.longitude))")
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = 10000
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
     }

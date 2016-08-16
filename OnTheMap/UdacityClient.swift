@@ -11,6 +11,8 @@ import Foundation
 class UdacityClient {
     var sessionID: String!
     var accountKey: String!
+    var firstName: String!
+    var lastName: String!
     
     func login(userName: String, password: String, completionHandler: (info: String?, success: Bool) -> Void) {
         
@@ -36,8 +38,12 @@ class UdacityClient {
                                         guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
                                             return
                                         }
-
-                                        completionHandler(info: "Login succcessfully, session id: \(self.sessionID)",  success: true)
+                                        
+                                        if let sessionID = self.sessionID {
+                                            completionHandler(info: "Login succcessfully, session id: \(sessionID)",  success: true)
+                                        } else {
+                                            completionHandler(info: "Login failed, could not get session id.",  success: false)
+                                        }
                                     }
     }
     
@@ -65,7 +71,11 @@ class UdacityClient {
                                             return
                                         }
                         
-                                        completionHandler(info: "Logoff succcessfully, session id: \(self.sessionID)",  success: true)
+                                        if let sessionID = self.sessionID {
+                                            completionHandler(info: "Login succcessfully, session id: \(sessionID)",  success: true)
+                                        } else {
+                                            completionHandler(info: "Login failed, could not get session id.",  success: false)
+                                        }
                                     }
     }
     
@@ -90,17 +100,36 @@ class UdacityClient {
             completionHandler(info: "Could not parse the data as JSON: \(data)",  success: false)
         }
         
-        guard self.parseSessionID(parsedResult) else {
-            if let error = parsedResult["error"] as? String {
-                completionHandler(info: error,  success: false)
-            }
-            
-            return false
-        }
-        
+        self.parseSessionID(parsedResult)
         self.parseAccountKey(parsedResult)
-        
+        self.parseUserInfo(parsedResult)
+
         return true
+    }
+    
+    func getUserInfo(completionHandler: (info: String?, success: Bool) -> Void) {
+        if let accountKey = accountKey {
+            HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
+                                   host: Constants.Udacity.ApiHost,
+                                   path: Constants.Udacity.ApiPath,
+                                   pathExtension: Constants.Udacity.ApiUserData + "/\(accountKey)") { (data, statusCode, error) in
+                                    
+                                    guard self.completionHandlerForUdacity(data, error: error, completionHandler: completionHandler) else {
+                                        return
+                                    }
+                                    
+                                    if let lastname = self.lastName {
+                                        if  let firstname = self.firstName {
+                                            completionHandler(info: "Get user info succcessfully: \(firstname) \(lastname)",  success: true)
+                                            return
+                                        }
+                                    }
+                                    
+                                    completionHandler(info: "Get user info failed.",  success: false)
+                                    
+                                }
+        }
+
     }
     
     private func parseSessionID(data: AnyObject!) -> Bool{
@@ -115,11 +144,25 @@ class UdacityClient {
     }
     
     private func parseAccountKey(data: AnyObject!) -> Bool{
-        if let session = data["account"] as? [String: AnyObject] {
-            if let key = session["key"] as? String {
+        if let account = data["account"] as? [String: AnyObject] {
+            if let key = account["key"] as? String {
                 print("Udacity account key is \(key)")
                 accountKey = key
                 return true
+            }
+        }
+        return false
+    }
+    
+    private func parseUserInfo(data: AnyObject!) -> Bool {
+        if let user = data["user"] as? [String: AnyObject] {
+            if let lastname = user["last_name"] as? String {
+                self.lastName = lastname
+                
+                if let firstname = user["first_name"] as? String {
+                    self.firstName = firstname
+                    return true
+                }
             }
         }
         return false

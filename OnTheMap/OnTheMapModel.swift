@@ -14,6 +14,7 @@ class OnTheMapModel {
     static func sharedModel() -> OnTheMapModel  {
         return shardModel
     }
+    
     var udacityClient = UdacityClient()
     var studentLocationClient = StudentLocationClient()
     

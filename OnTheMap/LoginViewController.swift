@@ -125,12 +125,22 @@ class LoginViewController: UIViewController {
     }
     
     func loginCompleted() {
+        onTheMapModel.udacityClient.getUserInfo { (info, success) in
+            FunctionsHelper.performUIUpdatesOnMain({
+                if !success {
+                    FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Failed to get user's information.", handler: nil)
+                }
+            })
+        }
         onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.switchToTabView()
                 } else {
-                    print("Fetch student loaction failed: \(info)")                }
+                    FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Fetch student loaction failed.", handler: nil)
+                    
+                    self.updateUI(false)
+                }
             })
         }
     }

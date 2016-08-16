@@ -13,13 +13,6 @@ struct Constants {
     static let ApiScheme = "http"
     static let ApiSecureScheme = "https"
     
-    static let ApiHost = "api.themoviedb.org"
-    
-    static let ApiPath = "/3"
-    static let AuthorizationURL = "https://www.themoviedb.org/authenticate/"
-    
-    static let UdacitySession = "https://www.udacity.com/api/session"
-    
     struct HTTPMethod {
         static let GET = "GET"
         static let POST = "POST"
@@ -31,6 +24,7 @@ struct Constants {
         static let ApiHost = "www.udacity.com"
         static let ApiPath = "/api"
         static let ApiPathExtension = "/session"
+        static let ApiUserData = "/users"
         
         static let SignupLink = "https://www.udacity.com/account/auth#!/signup"
     }

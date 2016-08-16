@@ -59,15 +59,17 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("table row selected: \(indexPath.row)")
-        
-        if let tabBarController = tabBarController {
-            if let mapViewController = tabBarController.viewControllers?[0].childViewControllers[0] as? MapViewController {
-                mapViewController.currentStudentLocationIndex = indexPath.row
+        if let location = onTheMapModel.studentLocationClient.getStudentLocatAt(indexPath.row) {
+            var urlToOpen = location.mediaURL
+            if !urlToOpen.hasPrefix(Constants.ApiScheme) {
+                urlToOpen = Constants.ApiScheme + "://" + urlToOpen
+            }
+            if let url  = NSURL(string: urlToOpen) {
+                if UIApplication.sharedApplication().canOpenURL(url) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
             }
         }
-        
-        // switch to map view
-        tabBarController?.selectedIndex = 0
     }
     
     func refreshStatusChanged() {

@@ -24,10 +24,9 @@ class InformationPostingViewController: UIViewController {
             return OnTheMapModel.sharedModel()
         }
     }
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var cancelButton: UIButton!
-    
-    
     @IBOutlet weak var promptStackView: UIStackView!
     @IBOutlet weak var addressTextField: UITextField!
     
@@ -36,6 +35,8 @@ class InformationPostingViewController: UIViewController {
             if address.isEmpty {
                 FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "The address should not be empty. Please input a address.", handler: nil)
             } else {
+                
+                activityIndicator.startAnimating()
                 
                 findAddressOnMap(address, completionHandler: { (studentLocation, success) in
                     FunctionsHelper.performUIUpdatesOnMain({
@@ -53,6 +54,7 @@ class InformationPostingViewController: UIViewController {
                                 self.addressTextField.text = ""
                             })
                         }
+                        self.activityIndicator.stopAnimating()
                     })
                 })
             }
@@ -61,15 +63,10 @@ class InformationPostingViewController: UIViewController {
     
     @IBOutlet weak var submitStackView: UIStackView!
     @IBOutlet weak var linkTextField: UITextField!
-    @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func submit(sender: UIButton) {
         if validateValueOfTextField() {
-            
-            studentLocation.firstName = firstNameTextField.text!
-            studentLocation.lastName = lastNameTextField.text!
             studentLocation.mediaURL = linkTextField.text!
             
             postStudentLocation()
@@ -79,6 +76,11 @@ class InformationPostingViewController: UIViewController {
     @IBAction func cancel(sender: UIButton) {
         studentLocation = nil
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        activityIndicator.stopAnimating()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -181,7 +183,10 @@ class InformationPostingViewController: UIViewController {
                     studentLocation.latitude = (placemark.location?.coordinate.latitude)!
                     studentLocation.longitude = (placemark.location?.coordinate.longitude)!
                     
-                    studentLocation.uniqueKey = self.onTheMapModel.udacityClient.accountKey
+                    studentLocation.uniqueKey = self.onTheMapModel.udacityClient.accountKey ?? ""
+                    
+                    studentLocation.firstName = self.onTheMapModel.udacityClient.firstName ?? ""
+                    studentLocation.lastName = self.onTheMapModel.udacityClient.lastName ?? ""
                     
                     completionHandler(studentLocation: studentLocation, success: true)
                     return
@@ -222,27 +227,6 @@ class InformationPostingViewController: UIViewController {
             FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid link. Please try another link.", handler: nil)
             return false
         }
-        
-        if let firstname = firstNameTextField.text {
-            if firstname.isEmpty {
-                FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "Firstname shoulde not be empty. Please input a firstname.", handler: nil)
-                return false
-            }
-        } else {
-            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid firstname. Please try another one.", handler: nil)
-            return false
-        }
-        
-        if let lastname = lastNameTextField.text {
-            if lastname.isEmpty {
-                FunctionsHelper.popupAnOKAlert(self, title: "Warning", message: "Lastname shoulde not be empty. Please input a lastname.", handler: nil)
-                return false
-            }
-        } else {
-            FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Invalid lastname. Please try another one.", handler: nil)
-            return false
-        }
-        
         return true
     }
 }
