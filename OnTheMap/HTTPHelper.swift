@@ -25,8 +25,6 @@ struct HTTPHelper {
             request.HTTPBody = HTTPBody.dataUsingEncoding(NSUTF8StringEncoding)
         }
         
-        print("Request URL: " + String(request.URL!))
-        
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             completionHandler(data, ((response as? NSHTTPURLResponse)?.statusCode) , error)

@@ -140,7 +140,6 @@ class UdacityClient {
     private func parseSessionID(data: AnyObject!) -> Bool{
         if let session = data["session"] as? [String: AnyObject] {
             if let id = session["id"] as? String {
-                print("Udacity session id is \(id)")
                 sessionID = id
                 return true
             }
@@ -151,7 +150,6 @@ class UdacityClient {
     private func parseAccountKey(data: AnyObject!) -> Bool{
         if let account = data["account"] as? [String: AnyObject] {
             if let key = account["key"] as? String {
-                print("Udacity account key is \(key)")
                 accountKey = key
                 return true
             }

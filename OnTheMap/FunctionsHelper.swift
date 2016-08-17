@@ -29,7 +29,6 @@ struct FunctionsHelper {
     
     static func centerMapOnStudentLocation(studentLocation: StudentLocation, mapView: MKMapView) {
         let location = CLLocation(latitude: studentLocation.latitude, longitude: studentLocation.longitude)
-        print("Center to (\(studentLocation.latitude), \(studentLocation.longitude))")
         let regionRadius: CLLocationDistance = 10000
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)

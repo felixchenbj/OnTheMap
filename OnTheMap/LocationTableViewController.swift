@@ -20,10 +20,7 @@ class LocationTableViewController: UITableViewController {
         UdacityClient.sharedUdacityClient().logoff { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
-                    //UIHelper.switchToLoginView(self)
                     self.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    print("Logoff failed: \(info)")
                 }
             })
         }
@@ -59,7 +56,6 @@ class LocationTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("table row selected: \(indexPath.row)")
         if let location = OnTheMapModel.sharedModel().getStudentLocatAt(indexPath.row) {
             var urlToOpen = location.mediaURL
             if !urlToOpen.hasPrefix(Constants.ApiScheme) {
@@ -74,7 +70,6 @@ class LocationTableViewController: UITableViewController {
     }
     
     func refreshStatusChanged() {
-        print("refreshStatusChanged")
         refreshData(true)
     }
     
@@ -85,11 +80,9 @@ class LocationTableViewController: UITableViewController {
                     self.tableView.reloadData()
                     
                     if forRefreshControl {
-                        print("end refreshing")
                         self.refreshControl?.endRefreshing()
                     }
                 } else {
-                    print("Fetch student loaction failed: \(info)")
                     FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Fetch student loaction failed.", handler: nil)
                 }
             })

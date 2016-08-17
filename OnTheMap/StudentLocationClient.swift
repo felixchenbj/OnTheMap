@@ -89,7 +89,6 @@ class StudentLocationClient {
             completionHandler(info: "Could not find student location in the response data.",  success: false)
             return false
         }
-        print("Student location in the list: \(OnTheMapModel.sharedModel().count())")
         
         return true
     }
@@ -115,7 +114,6 @@ class StudentLocationClient {
         
         
         guard let objectId = parsedResult["objectId"] as? String else {
-            print(parsedResult)
             completionHandler(info: "Could not find objectId in the response: \(parsedResult)",  success: false)
             return false
         }
@@ -127,7 +125,6 @@ class StudentLocationClient {
     
     private func parseStudentLocations(data: AnyObject!) -> Bool{
         if let results = data["results"] as? [AnyObject] {
-            print("Student location from server count: \(results.count)")
             
             OnTheMapModel.sharedModel().clearStudateLocationList()
             

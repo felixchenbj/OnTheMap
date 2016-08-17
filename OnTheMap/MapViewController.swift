@@ -23,10 +23,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         UdacityClient.sharedUdacityClient().logoff { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
-                    //UIHelper.switchToLoginView(self)
                     self.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    print("Logoff failed: \(info)")
                 }
             })
         }
@@ -39,7 +36,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     self.clearAllAnnotations()
                     self.addAnnotationsFromStudentLocations()
                 } else {
-                    print("Fetch student loaction failed: \(info)")
                     FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Fetch student loaction failed.", handler: nil)
                 }
             })
@@ -63,7 +59,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         
         if let firstStudentLocation = onTheMapModel.getStudentLocatAt(0) {
-            print("centerMapOnStudentLocation, first location")
             FunctionsHelper.centerMapOnStudentLocation(firstStudentLocation, mapView: mapView)
         }
     }

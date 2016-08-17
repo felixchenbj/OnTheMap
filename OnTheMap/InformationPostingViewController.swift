@@ -97,8 +97,6 @@ class InformationPostingViewController: UIViewController {
         currentViewMode = mode
         switch currentViewMode{
         case .PromptMode:
-            print("PromptMode")
-            
             if animated {
                 UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
                     self.submitStackView.alpha = 0
@@ -118,7 +116,6 @@ class InformationPostingViewController: UIViewController {
             
             cancelButton.setTitleColor(cancelButton.tintColor, forState: UIControlState.Normal)
         case .SubmitMode:
-            print("SubmitMode")
             if animated {
                 UIView.animateWithDuration(0.2, delay: 0, options: [], animations: {
                     self.promptStackView.alpha = 0
@@ -165,9 +162,7 @@ class InformationPostingViewController: UIViewController {
         
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
-                print("completion")
                 guard error == nil else {
-                    print(error)
                     completionHandler(studentLocation: nil, success: false)
 
                     return
@@ -175,7 +170,6 @@ class InformationPostingViewController: UIViewController {
                 
                 if placemarks?.count > 0 {
                     let placemark = placemarks![0]
-                    print(placemark.name, placemark.country, placemark.locality, placemark.subLocality, placemark.thoroughfare, placemark.subThoroughfare)
                     
                     var studentLocation = StudentLocation()
                     
