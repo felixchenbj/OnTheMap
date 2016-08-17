@@ -10,22 +10,12 @@ import Foundation
 
 class StudentLocationClient {
     
-    var studentLocationList = [StudentLocation]()
+    private static var studentLocationClient = StudentLocationClient()
     
-    func clearStudateLocationList() {
-        studentLocationList.removeAll()
+    static func sharedStudentLocationClient() -> StudentLocationClient{
+        return studentLocationClient
     }
     
-    func count() -> Int{
-        return studentLocationList.count
-    }
-    
-    func getStudentLocatAt(index: Int) -> StudentLocation? {
-        guard index >= 0 && index < studentLocationList.count else {
-            return nil
-        }
-        return studentLocationList[index]
-    }
     
     func fetchStudentLoactionList(completionHandler: (info: String?, success: Bool) -> Void) {
         
@@ -48,7 +38,7 @@ class StudentLocationClient {
                                             return
                                         }
                                         
-                                        completionHandler(info: "Fetch student location succcessfully, count: \(self.studentLocationList.count)",  success: true)
+                                        completionHandler(info: "Fetch student location succcessfully, count: \(OnTheMapModel.sharedModel().count())",  success: true)
                                     }
     }
     
@@ -99,7 +89,7 @@ class StudentLocationClient {
             completionHandler(info: "Could not find student location in the response data.",  success: false)
             return false
         }
-        print("Student location in the list: \(self.studentLocationList.count)")
+        print("Student location in the list: \(OnTheMapModel.sharedModel().count())")
         
         return true
     }
@@ -139,16 +129,16 @@ class StudentLocationClient {
         if let results = data["results"] as? [AnyObject] {
             print("Student location from server count: \(results.count)")
             
-            clearStudateLocationList()
+            OnTheMapModel.sharedModel().clearStudateLocationList()
             
             for result in results {
                 if let result = result as? [String:AnyObject] {
                     if let studentLocation = StudentLocation(dictionary: result) {
-                        studentLocationList.append(studentLocation)
+                        OnTheMapModel.sharedModel().append(studentLocation)
                     }
                 }
             }
-            if !studentLocationList.isEmpty {
+            if OnTheMapModel.sharedModel().count() > 0 {
                 return true
             }
         }

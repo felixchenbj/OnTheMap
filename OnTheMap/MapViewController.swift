@@ -20,10 +20,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     @IBAction func logout(sender: UIBarButtonItem) {
-        onTheMapModel.udacityClient.logoff { (info, success) in
+        UdacityClient.sharedUdacityClient().logoff { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
-                    UIHelper.switchToLoginView(self)
+                    //UIHelper.switchToLoginView(self)
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
                     print("Logoff failed: \(info)")
                 }
@@ -32,7 +33,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func refresh(sender: UIBarButtonItem) {
-        onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
+        StudentLocationClient.sharedStudentLocationClient().fetchStudentLoactionList { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.clearAllAnnotations()
@@ -61,7 +62,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidAppear(animated)
         
         
-        if let firstStudentLocation = onTheMapModel.studentLocationClient.getStudentLocatAt(0) {
+        if let firstStudentLocation = onTheMapModel.getStudentLocatAt(0) {
             print("centerMapOnStudentLocation, first location")
             FunctionsHelper.centerMapOnStudentLocation(firstStudentLocation, mapView: mapView)
         }
@@ -78,7 +79,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func generateAnnotationsFromStudentLocations() -> [MKPointAnnotation]{
         var annotations = [MKPointAnnotation]()
         
-        let locations = onTheMapModel.studentLocationClient.studentLocationList
+        let locations = onTheMapModel.getStudentLocationList()
         
         for location in locations {
             let annotation = MKPointAnnotation()

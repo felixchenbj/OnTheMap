@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
     @IBAction func login(sender: UIButton) {
         updateUI(true)
         
-        onTheMapModel.udacityClient.login(usernameTextField.text!, password: passwordTextField.text!) { (info, success) in
+        UdacityClient.sharedUdacityClient().login(usernameTextField.text!, password: passwordTextField.text!) { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.loginCompleted()
@@ -125,14 +125,17 @@ class LoginViewController: UIViewController {
     }
     
     func loginCompleted() {
-        onTheMapModel.udacityClient.getUserInfo { (info, success) in
+        UdacityClient.sharedUdacityClient().getUserInfo { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
-                if !success {
+                if success {
+                    self.usernameTextField.text = ""
+                    self.passwordTextField.text = ""
+                } else {
                     FunctionsHelper.popupAnOKAlert(self, title: "Error", message: "Failed to get user's information.", handler: nil)
                 }
             })
         }
-        onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
+        StudentLocationClient.sharedStudentLocationClient().fetchStudentLoactionList { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.switchToTabView()

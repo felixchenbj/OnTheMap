@@ -9,10 +9,15 @@
 import Foundation
 
 class UdacityClient {
-    var sessionID: String!
-    var accountKey: String!
-    var firstName: String!
-    var lastName: String!
+    var sessionID = ""
+    var accountKey = ""
+    var firstName = ""
+    var lastName = ""
+    
+    private static var udacityClient = UdacityClient()
+    static func sharedUdacityClient() -> UdacityClient {
+        return udacityClient
+    }
     
     func login(userName: String, password: String, completionHandler: (info: String?, success: Bool) -> Void) {
         
@@ -39,8 +44,8 @@ class UdacityClient {
                                             return
                                         }
                                         
-                                        if let sessionID = self.sessionID {
-                                            completionHandler(info: "Login succcessfully, session id: \(sessionID)",  success: true)
+                                        if !self.sessionID.isEmpty {
+                                            completionHandler(info: "Login succcessfully, session id: \(self.sessionID)",  success: true)
                                         } else {
                                             completionHandler(info: "Login failed, could not get session id.",  success: false)
                                         }
@@ -71,8 +76,8 @@ class UdacityClient {
                                             return
                                         }
                         
-                                        if let sessionID = self.sessionID {
-                                            completionHandler(info: "Login succcessfully, session id: \(sessionID)",  success: true)
+                                        if !self.sessionID.isEmpty {
+                                            completionHandler(info: "Login succcessfully, session id: \(self.sessionID)",  success: true)
                                         } else {
                                             completionHandler(info: "Login failed, could not get session id.",  success: false)
                                         }
@@ -108,7 +113,7 @@ class UdacityClient {
     }
     
     func getUserInfo(completionHandler: (info: String?, success: Bool) -> Void) {
-        if let accountKey = accountKey {
+        if !accountKey.isEmpty {
             HTTPHelper.HTTPRequest(Constants.ApiSecureScheme,
                                    host: Constants.Udacity.ApiHost,
                                    path: Constants.Udacity.ApiPath,
@@ -118,9 +123,9 @@ class UdacityClient {
                                         return
                                     }
                                     
-                                    if let lastname = self.lastName {
-                                        if  let firstname = self.firstName {
-                                            completionHandler(info: "Get user info succcessfully: \(firstname) \(lastname)",  success: true)
+                                    if !self.lastName.isEmpty {
+                                        if !self.firstName.isEmpty {
+                                            completionHandler(info: "Get user info succcessfully: \(self.firstName) \(self.lastName)",  success: true)
                                             return
                                         }
                                     }

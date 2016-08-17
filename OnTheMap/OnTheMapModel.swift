@@ -15,7 +15,28 @@ class OnTheMapModel {
         return shardModel
     }
     
-    var udacityClient = UdacityClient()
-    var studentLocationClient = StudentLocationClient()
+    var studentLocationList = [StudentLocation]()
     
+    func clearStudateLocationList() {
+        studentLocationList.removeAll()
+    }
+    
+    func count() -> Int{
+        return studentLocationList.count
+    }
+    
+    func getStudentLocatAt(index: Int) -> StudentLocation? {
+        guard index >= 0 && index < studentLocationList.count else {
+            return nil
+        }
+        return studentLocationList[index]
+    }
+    
+    func append(studentLocation: StudentLocation) {
+        studentLocationList.append(studentLocation)
+    }
+    
+    func getStudentLocationList() -> [StudentLocation]{
+        return studentLocationList
+    }
 }

@@ -17,10 +17,11 @@ class LocationTableViewController: UITableViewController {
     }
     
     @IBAction func logout(sender: UIBarButtonItem) {
-        onTheMapModel.udacityClient.logoff { (info, success) in
+        UdacityClient.sharedUdacityClient().logoff { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
-                    UIHelper.switchToLoginView(self)
+                    //UIHelper.switchToLoginView(self)
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
                     print("Logoff failed: \(info)")
                 }
@@ -43,14 +44,14 @@ class LocationTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return onTheMapModel.studentLocationClient.studentLocationList.count
+        return OnTheMapModel.sharedModel().count()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("LocationTableCell", forIndexPath: indexPath)
         
-        if let location = onTheMapModel.studentLocationClient.getStudentLocatAt(indexPath.row) {
+        if let location = OnTheMapModel.sharedModel().getStudentLocatAt(indexPath.row) {
             cell.textLabel?.text = "\(location.firstName) \(location.lastName)"
         }
         
@@ -59,7 +60,7 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("table row selected: \(indexPath.row)")
-        if let location = onTheMapModel.studentLocationClient.getStudentLocatAt(indexPath.row) {
+        if let location = OnTheMapModel.sharedModel().getStudentLocatAt(indexPath.row) {
             var urlToOpen = location.mediaURL
             if !urlToOpen.hasPrefix(Constants.ApiScheme) {
                 urlToOpen = Constants.ApiScheme + "://" + urlToOpen
@@ -78,7 +79,7 @@ class LocationTableViewController: UITableViewController {
     }
     
     private func refreshData(forRefreshControl: Bool = false) {
-        onTheMapModel.studentLocationClient.fetchStudentLoactionList { (info, success) in
+        StudentLocationClient.sharedStudentLocationClient().fetchStudentLoactionList { (info, success) in
             FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.tableView.reloadData()

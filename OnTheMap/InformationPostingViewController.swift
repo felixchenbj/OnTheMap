@@ -183,10 +183,10 @@ class InformationPostingViewController: UIViewController {
                     studentLocation.latitude = (placemark.location?.coordinate.latitude)!
                     studentLocation.longitude = (placemark.location?.coordinate.longitude)!
                     
-                    studentLocation.uniqueKey = self.onTheMapModel.udacityClient.accountKey ?? ""
+                    studentLocation.uniqueKey = UdacityClient.sharedUdacityClient().accountKey
                     
-                    studentLocation.firstName = self.onTheMapModel.udacityClient.firstName ?? ""
-                    studentLocation.lastName = self.onTheMapModel.udacityClient.lastName ?? ""
+                    studentLocation.firstName = UdacityClient.sharedUdacityClient().firstName
+                    studentLocation.lastName = UdacityClient.sharedUdacityClient().lastName
                     
                     completionHandler(studentLocation: studentLocation, success: true)
                     return
@@ -199,7 +199,7 @@ class InformationPostingViewController: UIViewController {
     func postStudentLocation() {
         
         if let studentLocation = studentLocation {
-            onTheMapModel.studentLocationClient.postStudentLocation(studentLocation, completionHandler: { (info, success) in
+            StudentLocationClient.sharedStudentLocationClient().postStudentLocation(studentLocation, completionHandler: { (info, success) in
                 FunctionsHelper.performUIUpdatesOnMain({
                 if success {
                     self.dismissViewControllerAnimated(true, completion: nil)
